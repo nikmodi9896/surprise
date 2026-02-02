@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            background-color: #ff4d4d; /* Red Background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+            min-height: 250px;
+            position: relative;
+        }
+
+        h1 {
+            color: #d63031;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: none;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: white;
+            color: #ff4d4d;
+            border: 2px solid #ff4d4d;
+            position: absolute; /* Needed for movement */
+        }
+
+        .success-content {
+            display: none;
+        }
+
+        img {
+            width: 200px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="card">
+        <div id="questionSection">
+            <h1>Will you be my Valentine?</h1>
+            <div class="btn-container">
+                <button id="yesBtn" onclick="celebrate()">YES</button>
+                <button id="noBtn" onmouseover="moveButton()">NO</button>
+            </div>
+        </div>
+
+        <div id="successSection" class="success-content">
+            <h1 style="margin-bottom: 10px;">Best decision ever!</h1>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyYm96Zmc1amV4bm9qZzZqZzRycW5qZzRycW5qZzRycW5qZzRycSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Funny Cat Dance">
+            <p style="color: #d63031; font-weight: bold; font-size: 1.2rem;">Thank you! ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const card = document.getElementById('card');
+            
+            // Calculate random positions within the card boundaries
+            // Subtracting button width/height to keep it inside
+            const maxX = card.clientWidth - noBtn.clientWidth - 20;
+            const maxY = card.clientHeight - noBtn.clientHeight - 20;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('successSection').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
