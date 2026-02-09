@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be My Valentine?</title>
     <style>
-        /* 1. LAYOUT & BACKGROUND */
         body {
-            background-color: #ff4d4d; /* Red Background */
+            background-color: #ff4d4d;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,7 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* 2. FLOATING HEARTS ANIMATION */
+        /* Floating Hearts */
         .heart {
             position: fixed;
             color: rgba(255, 255, 255, 0.7);
@@ -33,7 +32,6 @@
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* 3. THE CARD */
         #card {
             background-color: white;
             padding: 40px;
@@ -41,13 +39,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             text-align: center;
             width: 90%;
-            max-width: 450px;
+            max-width: 500px;
             z-index: 1;
             transition: all 0.5s ease;
-            position: relative;
         }
 
-        h1 { color: #d63031; margin-bottom: 30px; }
+        h1 { color: #d63031; }
 
         .btn-container {
             display: flex;
@@ -55,6 +52,7 @@
             align-items: center;
             gap: 20px;
             margin-top: 20px;
+            min-height: 100px;
         }
 
         button {
@@ -62,36 +60,83 @@
             cursor: pointer;
             border-radius: 10px;
             border: none;
-            transition: all 0.1s ease;
         }
 
-        /* 4. BUTTON STYLES */
         #yesBtn {
             background-color: #ff4d4d;
             color: white;
             padding: 10px 20px;
             font-size: 1rem;
-            z-index: 2;
+            transition: all 0.2s ease;
         }
 
         #noBtn {
             background-color: white;
             color: #ff4d4d;
             border: 2px solid #ff4d4d;
-            position: fixed; /* Moves anywhere on screen */
+            position: fixed;
             padding: 15px 30px;
-            font-size: 1.5rem; /* Starts 50% larger */
+            font-size: 1.2rem;
             z-index: 1000;
         }
 
-        /* 5. SECTIONS CONTROL */
         .hidden { display: none !important; }
 
-        #successSection img {
-            width: 250px;
-            border-radius: 15px;
-            margin: 20px 0;
+        /* Gallery Styles */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
         }
+
+        .gallery img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .gallery img:hover { border: 2px solid #ff4d4d; }
+
+        /* Fullscreen Image Modal */
+        #modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        #modalImg {
+            max-width: 85%;
+            max-height: 80%;
+            border: 5px solid white;
+            border-radius: 10px;
+        }
+
+        .modal-btn {
+            position: absolute;
+            background: #ff4d4d;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #closeBtn { top: 20px; right: 20px; border-radius: 10px; }
+        #prevBtn { left: 20px; }
+        #nextBtn { right: 20px; }
 
         #memoriesBtn {
             background-color: #d63031;
@@ -101,31 +146,8 @@
             border-radius: 10px;
             font-weight: bold;
             display: inline-block;
-            margin-top: 15px;
-            animation: fadeIn 1s;
-        }
-
-        /* 6. GALLERY STYLES */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
             margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 10px;
         }
-
-        .gallery img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -143,9 +165,7 @@
 
         <div id="successSection" class="hidden">
             <h1>Best decision ever!</h1>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyYm96Zmc1amV4bm9qZzZqZzRycW5qZzRycW5qZzRycW5qZzRycSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Funny GIF">
-            <p style="color: #d63031; font-weight: bold;">Thank you! ❤️</p>
-            
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyYm96Zmc1amV4bm9qZzZqZzRycW5qZzRycW5qZzRycW5qZzRycSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" width="200">
             <div id="memoriesWrapper" class="hidden">
                 <a href="#" id="memoriesBtn" onclick="showGallery()">See Our Memories ❤️</a>
             </div>
@@ -153,21 +173,33 @@
 
         <div id="gallerySection" class="hidden">
             <h2 style="color: #d63031;">Our Moments</h2>
-            <div class="gallery">
-                <img src="photo1.png" alt="Memory">
-                <img src="photo2.png" alt="Memory">
-                <img src="photo3.png" alt="Memory">
-                <img src="photo4.png" alt="Memory">
-                <img src="photo5.png" alt="Memory">
-                <img src="photo6.png" alt="Memory">
-                <img src="photo7.png" alt="Memory">
-            </div>
-            <p style="margin-top: 15px; font-size: 0.9rem; color: #777;">I love you! ✨</p>
+            <div class="gallery" id="imageGrid">
+                </div>
         </div>
     </div>
 
+    <div id="modal" class="hidden">
+        <button id="closeBtn" class="modal-btn" onclick="closeModal()">✕</button>
+        <button id="prevBtn" class="modal-btn" onclick="changeImage(-1)">❮</button>
+        <img id="modalImg" src="">
+        <button id="nextBtn" class="modal-btn" onclick="changeImage(1)">❯</button>
+    </div>
+
     <script>
-        // 1. Heart Generator
+        // 1. Setup Images
+        const imageCount = 20; 
+        const images = [];
+        for(let i=1; i<=imageCount; i++) { images.push(`photo${i}.png`); }
+
+        const grid = document.getElementById('imageGrid');
+        images.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.onclick = () => openModal(index);
+            grid.appendChild(img);
+        });
+
+        // 2. Heart Rain
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
@@ -179,47 +211,59 @@
         }
         setInterval(createHeart, 300);
 
-        // 2. Button Interaction Logic
-        let yesScale = 1;
-        let noScale = 1.5;
+        // 3. Button Growth Logic
+        let yesPadding = 10;
+        let yesFontSize = 1;
+        let growthCount = 0;
 
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
             
-            // Move No Button anywhere on screen
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
 
-            // Shrink No Button
-            if (noScale > 0.4) {
-                noScale -= 0.1;
-                noBtn.style.transform = `scale(${noScale})`;
+            // Increase Yes Button size by 5px (Padding) up to 5 times
+            if (growthCount < 5) {
+                yesPadding += 5;
+                yesFontSize += 0.2;
+                yesBtn.style.padding = `${yesPadding}px ${yesPadding * 2}px`;
+                yesBtn.style.fontSize = `${yesFontSize}rem`;
+                growthCount++;
             }
-
-            // Grow Yes Button
-            yesScale += 0.4;
-            yesBtn.style.transform = `scale(${yesScale})`;
         }
 
-        // 3. Section Transitions
+        // 4. Gallery & Modal Logic
+        let currentIdx = 0;
+
         function celebrate() {
             document.getElementById('questionSection').classList.add('hidden');
             document.getElementById('noBtn').classList.add('hidden');
             document.getElementById('successSection').classList.remove('hidden');
-
-            // Show Memories button after 3 seconds
-            setTimeout(() => {
-                document.getElementById('memoriesWrapper').classList.remove('hidden');
-            }, 3000);
+            setTimeout(() => { document.getElementById('memoriesWrapper').classList.remove('hidden'); }, 3000);
         }
 
         function showGallery() {
             document.getElementById('successSection').classList.add('hidden');
             document.getElementById('gallerySection').classList.remove('hidden');
-            document.getElementById('card').style.maxWidth = '600px';
+            document.getElementById('card').style.maxWidth = '800px';
+        }
+
+        function openModal(index) {
+            currentIdx = index;
+            document.getElementById('modalImg').src = images[currentIdx];
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+        function changeImage(step) {
+            currentIdx += step;
+            if (currentIdx >= images.length) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = images.length - 1;
+            document.getElementById('modalImg').src = images[currentIdx];
         }
     </script>
 </body>
