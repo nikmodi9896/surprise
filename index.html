@@ -6,7 +6,8 @@
     <title>Be My Valentine?</title>
     <style>
         body {
-            background-color: #ff4d4d;
+            /* Lightened red background for better contrast */
+            background-color: #ff6b6b; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,11 +17,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Floating Hearts Background */
+        /* Floating Emojis Background */
         .heart {
             position: fixed;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 24px;
             user-select: none;
             pointer-events: none;
             z-index: 0;
@@ -36,7 +37,7 @@
             background-color: white;
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             text-align: center;
             width: 90%;
             max-width: 500px;
@@ -53,7 +54,7 @@
             align-items: center;
             gap: 20px;
             margin-top: 20px;
-            min-height: 150px; /* Increased height to accommodate growing button */
+            min-height: 150px; 
         }
 
         button {
@@ -83,7 +84,6 @@
 
         .hidden { display: none !important; }
 
-        /* Success Section Layout */
         #successSection {
             display: flex;
             flex-direction: column;
@@ -97,7 +97,6 @@
             margin: 15px 0;
         }
 
-        /* Gallery Styles */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -120,7 +119,6 @@
 
         .gallery img:hover { border: 2px solid #ff4d4d; transform: scale(1.05); }
 
-        /* Modal / Lightbox */
         #modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -214,17 +212,23 @@
             grid.appendChild(img);
         });
 
-        // 2. Floating Heart Rain
+        // 2. Enhanced Floating Emoji Animation
+        const emojis = ['❤️', '💖', '💝', '💋', '😘', '💕', '✨'];
+        
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = '❤️';
+            // Select random emoji
+            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
             heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px'; // Varied sizes
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             document.getElementById('heart-bg').appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
         }
-        setInterval(createHeart, 300);
+        
+        // Increased frequency by 25% (Interval reduced from 300ms to 240ms)
+        setInterval(createHeart, 240);
 
         // 3. Button Growth (10 times, 5px each)
         let growthCount = 0;
@@ -242,7 +246,7 @@
 
             if (growthCount < 10) {
                 currentPadding += 5;
-                currentFontSize += 0.15; // Slightly grows text too for effect
+                currentFontSize += 0.15;
                 yesBtn.style.padding = `${currentPadding}px ${currentPadding * 2}px`;
                 yesBtn.style.fontSize = `${currentFontSize}rem`;
                 growthCount++;
@@ -256,7 +260,6 @@
             document.getElementById('questionSection').classList.add('hidden');
             document.getElementById('noBtn').classList.add('hidden');
             document.getElementById('successSection').classList.remove('hidden');
-            // Delays the button so she reads "Thank you" first
             setTimeout(() => { document.getElementById('memoriesWrapper').classList.remove('hidden'); }, 2500);
         }
 
@@ -281,7 +284,6 @@
             document.getElementById('modalImg').src = images[currentIdx];
         }
 
-        // Close modal on background click
         document.getElementById('modal').onclick = function(e) {
             if (e.target.id === 'modal') closeModal();
         };
